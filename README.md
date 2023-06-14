@@ -1,4 +1,9 @@
-# Running the Airflow Docker container
+## Pre-requisites
+* Python 3.8
+* Docker and docker-compose (`pip install docker docker-compose`)
+
+
+## Running the Airflow Docker container
 1. Create the Docker image 
 
         docker build -t my_airflow:latest .
@@ -24,9 +29,9 @@
 7. Optional: clean up the build cache if experiencing cache issues
       docker builder prune --filter type=exec.cachemount
 
-# Changes
+## Changes
 
-## Changes to the Docker image
+### Changes to the Docker image
         
         # Make changes in Dockerfile
         # Build Docker image
@@ -34,7 +39,7 @@
         # Re-build and run the Container
         docker-compose up --build
 
-## Changes to docker-compose.yaml
+### Changes to docker-compose.yaml
 
         # Stop the container and clean the environment
         docker-compose down --volumes --remove-orphans
@@ -49,12 +54,12 @@ Alternatively, you can restart the Airflow Docker container to apply the changes
         # restart the container
         docker restart <container id>
 
-## Changes to the code in /dags
+### Changes to the code in /dags
 Make changes in the code, and wait. The changes will be automatically deployed in the Docker container without the need to rebuild or restart the container.
 
-# Working in the container
+## Working in the container
 
-## Finding and review downloaded, preprocessed, or result data
+### Finding and review downloaded, preprocessed, or result data
 
 1. Access the Docker container.
 
@@ -63,15 +68,15 @@ Make changes in the code, and wait. The changes will be automatically deployed i
         # access the Docker container
         docker exec -it <container id> /bin/bash
 
-3. Once inside the container, you can check the value of the `RAW_DIR`, `PROC_DIR`or `RESULTS_DIR` environment variable by running:
+2. Once inside the container, you can check the value of the `RAW_DIR`, `PROC_DIR`or `RESULTS_DIR` environment variable by running:
       
       echo $RAW_DIR
 
-4. The output will display the path to the directory where the files were downloaded. You can navigate to that directory using the cd command and view the files using ls:
+3. The output will display the path to the directory where the files were downloaded. You can navigate to that directory using the cd command and view the files using ls:
       cd $RAW_DIR
       ls
 
-# Other useful snippets
+## Other useful snippets
 
 * Check the dependencies installed in the Docker container: `docker exec <containerid> pip list`
 
