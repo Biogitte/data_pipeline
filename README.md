@@ -74,3 +74,4 @@ Make changes in the code, and wait. The changes will be automatically deployed i
 # Other useful snippets
 
 * Check the dependencies installed in the Docker container: `docker exec <containerid> pip list`
+
