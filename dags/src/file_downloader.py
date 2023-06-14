@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 import os
 import time
-import wget
 import argparse
+import requests
 
 
 def download_file(url: str, destination: str, filename: str = None):
@@ -23,15 +23,22 @@ def download_file(url: str, destination: str, filename: str = None):
             file_extension = os.path.splitext(url)[1]
             filename_with_extension = f"{timestamp}_{filename}{file_extension}"
             file_path = os.path.join(destination, filename_with_extension)
-            wget.download(url, file_path)
-            print(f"\nFile downloaded successfully to: {file_path}")
         else:
-            wget.download(url, destination)
-            print(f"\nFile downloaded successfully to: {destination}")
+            filename = url.split("/")[-1]
+            file_path = os.path.join(destination, filename)
+
+        response = requests.get(url, stream=True)
+        response.raise_for_status()
+
+        with open(file_path, "wb") as file:
+            for chunk in response.iter_content(chunk_size=8192):
+                file.write(chunk)
+
+        print(f"\nFile downloaded successfully to: {file_path}")
 
     except FileNotFoundError:
         print(f"Error: The specified directory '{destination}' does not exist.")
-    except Exception as e:
+    except requests.exceptions.RequestException as e:
         print(f"Error downloading file: {e}")
 
 
