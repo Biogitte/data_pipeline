@@ -1,5 +1,5 @@
 # Data
-data/**
+dags/data/**
 
 # IntelliJ project files
 .idea
@@ -103,7 +103,6 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
 .venv
 env/
 venv/
