@@ -5,6 +5,14 @@ from airflow.operators.python_operator import PythonOperator
 
 from src.file_downloader import download_files
 
+url_dict = {
+            "https://raw.githubusercontent.com/mok0/covid19-data-denmark/master/covid19-data-denmark.csv": "ssi_covid_dk",
+            "https://raw.githubusercontent.com/mok0/covid19-data-denmark/master/cases_vs_age.csv": "ssi_cases_by_age_dk",
+            "https://raw.githubusercontent.com/mok0/covid19-data-denmark/master/mutant_data.csv": "ssi_mutations_dk",
+            "https://raw.githubusercontent.com/mok0/covid19-data-denmark/master/vaccinations.csv": "ssi_vaccinations_dk",
+            "https://files.ssi.dk/covid19/spildevand/data/data-spildevand-sarscov2-uge23-2023-alof": "",
+        }
+
 default_args = {
     'owner': 'biogitte',
     'depends_on_past': False,
@@ -16,13 +24,6 @@ default_args = {
 with DAG('capture_data_dag', default_args=default_args, schedule_interval='@daily') as dag:
 
     def download_data():
-        url_dict = {
-            "https://raw.githubusercontent.com/mok0/covid19-data-denmark/master/covid19-data-denmark.csv": "ssi_covid_dk",
-            "https://raw.githubusercontent.com/mok0/covid19-data-denmark/master/cases_vs_age.csv": "ssi_cases_by_age_dk",
-            "https://raw.githubusercontent.com/mok0/covid19-data-denmark/master/mutant_data.csv": "ssi_mutations_dk",
-            "https://raw.githubusercontent.com/mok0/covid19-data-denmark/master/vaccinations.csv": "ssi_vaccinations_dk",
-            "https://filxes.ssi.dk/covid19/spildevand/data/data-spildevand-sarscov2-uge23-2023-alof": "",
-        }
         destination = os.getenv('RAW_DIR')
         download_files(destination=destination, url_dict=url_dict)
 
