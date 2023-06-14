@@ -1,0 +1,13 @@
+apache-airflow
+dash
+dash-core-components
+dash-html-components
+docker
+docker-compose
+jupyter
+jupyter-dash
+pandas
+plotly
+pyspark
+wget
+
